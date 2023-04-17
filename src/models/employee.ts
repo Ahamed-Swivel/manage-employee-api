@@ -1,29 +1,21 @@
-import { createEmployee } from "../db/employees"
+import { Schema, model, Document } from "mongoose";
 
-export default class Employee {
-  id: string
-
-  constructor(
-    public firstName: string,
-    public lastName: string,
-    public email: string,
-    public number: string,
-    public gender: string,
-    public photo: string,
-  ) {
-    this.id = Date.now().toString()
-  }
-
-  async createNewEmployee() {
-    const newEmployee = await createEmployee({
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      number: this.number,
-      gender: this.gender,
-      photo: this.photo,
-    })
-
-    return newEmployee
-  }
+interface IEmployee extends Document {
+  firstName: string,
+  lastName: string,
+  email: string,
+  number: string,
+  gender: string,
+  photo: string,
 }
+
+const EmployeeSchema = new Schema({
+  firstName: { type: String, require: true },
+  lastName: { type: String, require: true },
+  email: { type: String, require: true },
+  number: { type: String, require: true },
+  gender: { type: String, require: true },
+  photo: { type: String, require: true }
+});
+
+export const Employee = model<IEmployee>("Employee", EmployeeSchema);
