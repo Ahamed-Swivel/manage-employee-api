@@ -4,15 +4,26 @@ import mongoose from 'mongoose';
 import config from "./config";
 import employeesRoutes from "./routes/employeesRoutes";
 
+mongoose.Promise = Promise
+
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(config.databaseUrl);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+}
+
 const app = express();
 
 app.use(express.json());
 app.use("/api/employees", employeesRoutes);
 
-app.listen(config.port, () => {
-    console.log(`Server is listening on port ${config.port}`);
-});
-
-mongoose.Promise = Promise
-mongoose.connect(config.databaseUrl)
-mongoose.connection.on('error', (error: Error) => console.log(error))
+//Connect to the database before listening
+connectDB().then(() => {
+    app.listen(config.port, () => {
+        console.log(`Server is listening on port ${config.port}`);
+    });
+})
