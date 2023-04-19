@@ -16,6 +16,16 @@ const EmployeeSchema = new Schema({
   number: { type: String, require: true },
   gender: { type: String, require: true },
   photo: { type: String, require: true }
+},
+{
+  versionKey: false,
+  id: true,
+  toJSON: {
+    transform(doc, ret){
+      ret.id = ret._id
+      delete ret._id
+    }
+  }
 });
 
 export const Employee = model<IEmployee>("Employee", EmployeeSchema);
