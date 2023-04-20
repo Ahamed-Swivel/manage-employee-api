@@ -1,8 +1,10 @@
 import express from "express";
 import mongoose from 'mongoose';
+import swaggerUi from 'swagger-ui-express';
 
 import config from "./config";
 import employeesRoutes from "./routes/employeesRoutes";
+import swaggerSpec from "./swagger";
 
 mongoose.Promise = Promise
 
@@ -20,6 +22,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/api/employees", employeesRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //Connect to the database before listening
 connectDB().then(() => {
