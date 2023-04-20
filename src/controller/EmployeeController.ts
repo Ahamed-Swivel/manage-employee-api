@@ -68,7 +68,7 @@ class EmployeeController {
       } catch (error) {
           res.status(500).send(error);
       }
-  }
+    }
 }
 
 export default new EmployeeController();
