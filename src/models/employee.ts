@@ -9,6 +9,65 @@ interface IEmployee extends Document {
   photo: string,
 }
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *    Employee:
+ *      required:
+ *      - email
+ *      - firstName
+ *      - gender
+ *      - lastName
+ *      - number
+ *      - photo
+ *      type: object
+ *      properties:
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        email:
+ *          type: string
+ *        number:
+ *          type: string
+ *        gender:
+ *          type: string
+ *        photo:
+ *          type: string
+ *    CreateEmployeeResponse:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        email:
+ *          type: string
+ *        number:
+ *          type: string
+ *        gender:
+ *          type: string
+ *        photo:
+ *          type: string
+ *    UpdateEmployeeBody:
+ *      type: object
+ *      properties:
+ *        firstName:
+ *          type: string
+ *        lastName:
+ *          type: string
+ *        email:
+ *          type: string
+ *        number:
+ *          type: string
+ *        gender:
+ *          type: string
+ *        photo:
+ *          type: string
+ */
 const EmployeeSchema = new Schema({
   firstName: { type: String, require: true },
   lastName: { type: String, require: true },
