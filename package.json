@@ -2,10 +2,10 @@
   "name": "manage-employees-api",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "app.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/app.js",
+    "start": "node app.js",
     "dev": "nodemon src/app.ts"
   },
   "keywords": [],
