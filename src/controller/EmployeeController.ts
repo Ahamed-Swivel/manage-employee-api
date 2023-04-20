@@ -61,7 +61,7 @@ class EmployeeController {
           );
 
           if (!employee) {
-            res.status(404).json({ message: "User not found" });
+            res.status(404).json({ message: "Employee not found" });
           } else {
             res.status(200).json(employee);
           }
