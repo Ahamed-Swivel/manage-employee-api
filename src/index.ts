@@ -30,3 +30,5 @@ connectDB().then(() => {
         console.log(`Server is listening on port ${config.port}`);
     });
 })
+
+export default app
