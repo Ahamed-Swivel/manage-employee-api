@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Employee } from "../models/employee";
+import logger from "../logger";
 
 class EmployeeController {
     public async createEmployee(req: Request, res: Response): Promise<void> {
@@ -8,6 +9,7 @@ class EmployeeController {
             await employee.save();
             res.status(201).send(employee);
         } catch (error) {
+            logger.error(error)
             res.status(400).send(error);
         }
     }
@@ -17,6 +19,7 @@ class EmployeeController {
             const employees = await Employee.find();
             res.status(200).send(employees);
         } catch (error) {
+            logger.error(error)
             res.status(500).send(error);
         }
     }
@@ -32,6 +35,7 @@ class EmployeeController {
                 res.status(200).send(employee);
             }
         } catch (error) {
+            logger.error(error)
             res.status(500).send(error);
         }
     }
@@ -47,6 +51,7 @@ class EmployeeController {
                 res.status(200).send(employee);
             }
         } catch (error) {
+            logger.error(error)
             res.status(500).send(error);
         }
     }
@@ -66,6 +71,7 @@ class EmployeeController {
             res.status(200).json(employee);
           }
       } catch (error) {
+          logger.error(error)
           res.status(500).send(error);
       }
     }
