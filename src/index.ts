@@ -5,15 +5,16 @@ import swaggerUi from 'swagger-ui-express';
 import config from "./config";
 import employeesRoutes from "./routes/employeesRoutes";
 import swaggerSpec from "./swagger";
+import logger from "./logger";
 
 mongoose.Promise = Promise
 
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(config.databaseUrl);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        logger.info(`MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
-        console.log(error);
+        logger.error(error);
         process.exit(1);
     }
 }
@@ -27,6 +28,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 //Connect to the database before listening
 connectDB().then(() => {
     app.listen(config.port, () => {
-        console.log(`Server is listening on port ${config.port}`);
+        logger.info(`Server is listening on port ${config.port}`);
     });
 })
