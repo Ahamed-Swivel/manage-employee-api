@@ -30,4 +30,6 @@ connectDB().then(() => {
     app.listen(config.port, () => {
         logger.info(`Server is listening on port ${config.port}`);
     });
+}).catch((error) => {
+    logger.error(error);
 })
