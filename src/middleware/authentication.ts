@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import config from "../config";
 
-// Define the authenticateToken middleware function
+// AuthenticateToken middleware function
 const authenticateToken = (req: any, res: any, next: any) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = authHeader?.split(' ')[1];
 
   if (token == null) {
     return res.sendStatus(401);
