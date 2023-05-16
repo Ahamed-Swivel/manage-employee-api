@@ -23,7 +23,10 @@ const connectDB = async () => {
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ['https://*.vercel.app'],
+    optionsSuccessStatus: 200
+}));
 app.use("/api/employees", employeesRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
