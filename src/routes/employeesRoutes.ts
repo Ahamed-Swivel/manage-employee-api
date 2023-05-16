@@ -1,7 +1,9 @@
 import { Router } from "express";
 
 import EmployeeController from "../controller/EmployeeController";
+import AuthController from "../controller/AuthController";
 import validateEmployee from "../middleware/validation";
+import authenticateToken from "../middleware/authentication";
 
 const router = Router();
 
@@ -103,10 +105,13 @@ const router = Router();
  *      500:
  *        description: Server error
  */
-router.post("/",validateEmployee, EmployeeController.createEmployee);
-router.get("/", EmployeeController.getEmployees);
-router.get("/:empId", EmployeeController.getEmployeeById);
-router.delete('/:empId', EmployeeController.deleteEmployee);
-router.patch('/:empId',validateEmployee, EmployeeController.updateEmployeeId);
+router.post("/", authenticateToken, validateEmployee, EmployeeController.createEmployee);
+router.get("/", authenticateToken, EmployeeController.getEmployees);
+router.get("/:empId", authenticateToken, EmployeeController.getEmployeeById);
+router.delete('/:empId', authenticateToken, EmployeeController.deleteEmployee);
+router.patch('/:empId', authenticateToken, validateEmployee, EmployeeController.updateEmployeeId);
+
+// This is just for testing purpose, Since we do not have login functionalities
+router.post('/get-token', AuthController.authenticate);
 
 export default router;
