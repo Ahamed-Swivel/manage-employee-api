@@ -1,6 +1,7 @@
 import express from "express";
-import mongoose from 'mongoose';
-import swaggerUi from 'swagger-ui-express';
+import mongoose from "mongoose";
+import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 
 import config from "./config";
 import employeesRoutes from "./routes/employeesRoutes";
@@ -22,6 +23,10 @@ const connectDB = async () => {
 const app = express();
 
 app.use(express.json());
+app.use(cors({
+    origin: ['https://*.vercel.app'],
+    optionsSuccessStatus: 200
+}));
 app.use("/api/employees", employeesRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
