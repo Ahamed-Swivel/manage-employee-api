@@ -1,3 +1,4 @@
+import { Request } from "express";
 import Joi from "joi"
 
 const EmployeeSchema = Joi.object({
@@ -10,5 +11,5 @@ const EmployeeSchema = Joi.object({
 })
 
 
-export const validateEmployeeJoi = (payload: string | any) =>
+export const validateEmployeeJoi = (payload: Request) =>
   EmployeeSchema.validate(payload, { abortEarly: false })
