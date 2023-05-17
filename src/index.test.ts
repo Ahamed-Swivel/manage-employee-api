@@ -1,29 +1,40 @@
-import {describe, expect} from '@jest/globals';
+import {beforeAll, describe, expect} from '@jest/globals';
 import request from "supertest";
-import mongoose from 'mongoose';
 import app from './app';
 
 // Mock the Employee model
 jest.mock("../src/models/employee");
 
+interface IToken {
+  token?: string
+}
+
 describe('DELETE /api/employees/:empId', () => {
+  let auth: IToken = {};
+  beforeAll(getToken(auth));
+
   it('should return 404 if employee is not found', async () => {
-    const response = await request(app).delete(
-      '/api/employees/614ac8b23e09e108d78e2890'
-    );
+    const response = await request(app)
+      .delete('/api/employees/614ac8b23e09e108d78e2890')
+      .set('Authorization', `bearer ${auth.token}`);
 
     expect(response.status).toBe(404);
     expect(response.text).toBe('Employee not found');
   });
 
   it('should return 500 if empId is invalid', async () => {
-    const response = await request(app).delete('/api/employees/invalid-empId');
+    const response = await request(app)
+      .delete('/api/employees/invalid-empId')
+      .set('Authorization', `bearer ${auth.token}`);
 
     expect(response.status).toBe(404);
   });
 });
 
 describe('POST /api/employees', () => {
+  let auth: IToken = {};
+  beforeAll(getToken(auth));
+
   it('should create a new employee', async () => {
     const newEmployee = {
       firstName: "William",
@@ -35,6 +46,7 @@ describe('POST /api/employees', () => {
 
     const response = await request(app)
       .post('/api/employees')
+      .set('Authorization', `bearer ${auth.token}`)
       .send(newEmployee);
 
     expect(response.status).toBe(201)
@@ -51,6 +63,7 @@ describe('POST /api/employees', () => {
 
     const response = await request(app)
       .post('/api/employees')
+      .set('Authorization', `bearer ${auth.token}`)
       .send(invalidEmployee);
 
     expect(response.status).toBe(400);
@@ -59,18 +72,29 @@ describe('POST /api/employees', () => {
 
 
 describe('GET /api/employees', () => {
-  beforeAll(async () => {
-    await mongoose.connect(process.env.DATABASE_URL || '');
-  });
-
-
-  afterAll(async () => {
-    await mongoose.connection.close();
-  });
+  let auth: IToken = {};
+  beforeAll(getToken(auth));
 
   it('should return a list of employees', async () => {
-    await request(app).get('/api/employees').then(response => {
-      expect(response.status).toBe(200);
-    })
+    await request(app).get('/api/employees')
+      .set('Authorization', `bearer ${auth.token}`)
+      .then(response => {
+        expect(response.status).toBe(200);
+      })
   });
 });
+
+function getToken(auth: IToken) {
+  return function(done: Function) {
+      request(app)
+          .post('/api/employees/get-token')
+          .send()
+          .expect(200)
+          .end(onResponse);
+
+      function onResponse(err: any, res: any) {
+          auth.token = res.body.token;
+          return done();
+      }
+  };
+}
