@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
-import jwt from 'jsonwebtoken';
 
 import logger from "../logger";
-import config from "../config";
+import AuthRepository from "../repository/AuthRepository";
 
 class AuthController {
     public async authenticate(req: Request, res: Response): Promise<void> {
         try {
           // Generate a JWT token
-          const token = jwt.sign({}, config.jwtSecret);
+          const token = new AuthRepository().getToken()
 
           res.json({ token });
         } catch (error) {
