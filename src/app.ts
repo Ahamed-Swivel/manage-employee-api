@@ -4,9 +4,11 @@ import swaggerUi from 'swagger-ui-express';
 
 import employeesRoutes from "./routes/employeesRoutes";
 import swaggerSpec from "./swagger";
+import helmet from "helmet";
 
 const app = express();
 
+app.use(helmet());
 app.use(express.json());
 app.use(cors({
   origin: ['https://*.vercel.app'],
