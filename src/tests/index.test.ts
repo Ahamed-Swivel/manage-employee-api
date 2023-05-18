@@ -1,10 +1,10 @@
 import {beforeAll, describe, expect} from '@jest/globals';
 import request from "supertest";
-import app from './app';
-import { Employee } from './models/employee';
+import app from '../app';
+import { Employee } from '../models/employee';
 
 // Mock the Employee model
-jest.mock("../src/models/employee");
+jest.mock("../../src/models/employee");
 
 interface IToken {
   token?: string

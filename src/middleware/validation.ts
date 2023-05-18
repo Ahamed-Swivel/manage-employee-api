@@ -5,7 +5,7 @@ const validateEmployee = (req: Request, res: Response, next: NextFunction): any 
   const {error} = validateEmployeeJoi(req.body)
 
   if (error) {
-    return res.send(error.details);
+    return res.status(400).send(error.details);
   }
 
   next();
