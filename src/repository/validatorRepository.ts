@@ -7,7 +7,7 @@ const EmployeeSchema = Joi.object({
   email: Joi.string().email().required(),
   number: Joi.string().regex(/^\+?\d{10}$/).required(),
   gender: Joi.string().valid("M", "F").required(),
-  photo: Joi.string(),
+  photo: Joi.string().allow(""),
 })
 
 
